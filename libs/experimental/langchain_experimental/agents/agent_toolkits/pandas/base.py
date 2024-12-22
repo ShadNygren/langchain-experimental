@@ -149,6 +149,17 @@ def _get_functions_prompt(df: Any, **kwargs: Any) -> ChatPromptTemplate:
     )
 
 
+def update_agent_prompt(agent_executor, df):
+    # Regenerate the prompt with updated DataFrame
+    new_prompt = _get_single_prompt(
+        df=df,
+        include_df_in_prompt=True,
+        number_of_head_rows=5  # Adjust as needed
+    )
+    # Update agent's prompt
+    agent_executor.agent.runnable.prompt = new_prompt
+
+
 def create_pandas_dataframe_agent(
     llm: LanguageModelLike,
     df: Any,
